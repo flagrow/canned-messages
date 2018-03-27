@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\SavedMessages\Listeners;
+namespace Flagrow\CannedMessages\Listeners;
 
-use Flagrow\SavedMessages\Api\Serializers\MessageSerializer;
-use Flagrow\SavedMessages\Repositories\MessageRepository;
+use Flagrow\CannedMessages\Api\Serializers\MessageSerializer;
+use Flagrow\CannedMessages\Repositories\MessageRepository;
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\ConfigureApiController;
@@ -23,8 +23,8 @@ class AddForumSavedMessagesRelationship
 
     public function getApiRelationship(GetApiRelationship $event)
     {
-        if ($event->isRelationship(ForumSerializer::class, 'flagrow-saved-messages')) {
-            return $event->serializer->hasMany($event->model, MessageSerializer::class, 'flagrow-saved-messages');
+        if ($event->isRelationship(ForumSerializer::class, 'flagrow-canned-messages')) {
+            return $event->serializer->hasMany($event->model, MessageSerializer::class, 'flagrow-canned-messages');
         }
     }
 
@@ -41,7 +41,7 @@ class AddForumSavedMessagesRelationship
         $locales = app(LocaleManager::class);
 
         if ($event->isController(ShowForumController::class)) {
-            $event->data['flagrow-saved-messages'] = $messages->messagesForLocale($locales->getLocale());
+            $event->data['flagrow-canned-messages'] = $messages->messagesForLocale($locales->getLocale());
         }
     }
 
@@ -49,7 +49,7 @@ class AddForumSavedMessagesRelationship
     {
         if ($event->isController(ShowForumController::class)) {
             $event->addInclude([
-                'flagrow-saved-messages',
+                'flagrow-canned-messages',
             ]);
         }
     }

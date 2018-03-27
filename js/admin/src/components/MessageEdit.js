@@ -1,7 +1,7 @@
 import app from 'flarum/app';
 import Component from 'flarum/Component';
 import Button from 'flarum/components/Button';
-import LocaleDropdown from 'flagrow/saved-messages/components/LocaleDropdown';
+import LocaleDropdown from 'flagrow/canned-messages/components/LocaleDropdown';
 import Select from 'flarum/components/Select';
 
 export default class MessageEdit extends Component {
@@ -16,7 +16,7 @@ export default class MessageEdit extends Component {
     }
 
     initNewMessage() {
-        this.message = app.store.createRecord('flagrow-saved-message', {
+        this.message = app.store.createRecord('flagrow-canned-message', {
             attributes: {
                 key: '',
                 locale: null,
@@ -65,7 +65,7 @@ export default class MessageEdit extends Component {
                 Button.component({
                     type: 'submit',
                     className: 'Button Button--primary',
-                    children: app.translator.trans('flagrow-saved-messages.admin.buttons.' + (this.message.exists ? 'save' : 'add') + '-message'),
+                    children: app.translator.trans('flagrow-canned-messages.admin.buttons.' + (this.message.exists ? 'save' : 'add') + '-message'),
                     loading: this.processing,
                     disabled: !this.dirty,
                     onclick: this.saveMessage.bind(this),
@@ -73,7 +73,7 @@ export default class MessageEdit extends Component {
                 (this.message.exists ? Button.component({
                     type: 'submit',
                     className: 'Button Button--danger',
-                    children: app.translator.trans('flagrow-saved-messages.admin.buttons.delete-message'),
+                    children: app.translator.trans('flagrow-canned-messages.admin.buttons.delete-message'),
                     loading: this.processing,
                     onclick: this.deleteMessage.bind(this),
                 }) : ''),

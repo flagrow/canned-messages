@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\SavedMessages\Api\Controllers;
+namespace Flagrow\CannedMessages\Api\Controllers;
 
-use Flagrow\SavedMessages\Api\Serializers\MessageSerializer;
-use Flagrow\SavedMessages\Repositories\MessageRepository;
+use Flagrow\CannedMessages\Api\Serializers\MessageSerializer;
+use Flagrow\CannedMessages\Repositories\MessageRepository;
 use Flarum\Api\Controller\AbstractCreateController;
 use Flarum\Core\Access\AssertPermissionTrait;
 use Illuminate\Support\Arr;
@@ -21,9 +21,9 @@ class MessageStoreController extends AbstractCreateController
      */
     protected $messages;
 
-    public function __construct(MessageRepository $strings)
+    public function __construct(MessageRepository $messages)
     {
-        $this->messages = $strings;
+        $this->messages = $messages;
     }
 
     protected function data(ServerRequestInterface $request, Document $document)

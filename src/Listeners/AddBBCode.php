@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\SavedMessages\Listeners;
+namespace Flagrow\CannedMessages\Listeners;
 
-use Flagrow\SavedMessages\Repositories\MessageRepository;
+use Flagrow\CannedMessages\Repositories\MessageRepository;
 use Flarum\Event\ConfigureFormatter;
 use Flarum\Event\ConfigureFormatterRenderer;
 use Flarum\Locale\LocaleManager;
@@ -32,7 +32,7 @@ class AddBBCode
         $tag->attributes->add('content')->required = false;
         $tag->filterChain
             ->prepend([static::class, 'noOpFilter'])
-            ->setJS('function(tag) { return System.get("flagrow/saved-messages/utils/textFormatter").filterSavedMessage(tag); }');
+            ->setJS('function(tag) { return System.get("flagrow/canned-messages/utils/textFormatter").filterSavedMessage(tag); }');
     }
 
     public function render(ConfigureFormatterRenderer $event)
@@ -68,7 +68,7 @@ class AddBBCode
                 $content = $message->content;
             } else {
                 $classes = 'Alert';
-                $content = $locales->getTranslator()->trans('flagrow-saved-messages.forum.bbcode.invalid-key');
+                $content = $locales->getTranslator()->trans('flagrow-canned-messages.forum.bbcode.invalid-key');
             }
 
             $attributes['classes'] = $classes;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\SavedMessages\Validators;
+namespace Flagrow\CannedMessages\Validators;
 
 use Flarum\Core\Validator\AbstractValidator;
 

@@ -1,5 +1,5 @@
 {
-    "name": "flagrow/saved-messages",
+    "name": "flagrow/canned-messages",
     "description": "Use bbcode to display custom and recurring messages",
     "keywords": [
         "extension",
@@ -18,8 +18,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/flagrow/saved-messages/issues",
-        "source": "https://github.com/flagrow/saved-messages"
+        "issues": "https://github.com/flagrow/canned-messages/issues",
+        "source": "https://github.com/flagrow/canned-messages"
     },
     "require": {
         "php": ">=7.0",
@@ -27,7 +27,7 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Flagrow Saved Messages",
+            "title": "Flagrow Canned Messages",
             "icon": {
                 "name": "map-signs",
                 "backgroundColor": "#f4f4f4",
@@ -40,7 +40,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Flagrow\\SavedMessages\\": "src/"
+            "Flagrow\\CannedMessages\\": "src/"
         }
     }
 }

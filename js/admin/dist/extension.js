@@ -1,29 +1,29 @@
 'use strict';
 
-System.register('flagrow/saved-messages/addMessagesPane', ['flarum/extend', 'flarum/app', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'flagrow/saved-messages/panes/MessagesPane'], function (_export, _context) {
+System.register('flagrow/canned-messages/addMessagesPane', ['flarum/extend', 'flarum/app', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'flagrow/canned-messages/panes/MessagesPane'], function (_export, _context) {
     "use strict";
 
     var extend, app, AdminNav, AdminLinkButton, MessagesPane;
 
     _export('default', function () {
         // create the route
-        app.routes['flagrow-saved-messages'] = {
-            path: '/flagrow/saved-messages',
+        app.routes['flagrow-canned-messages'] = {
+            path: '/flagrow/canned-messages',
             component: MessagesPane.component()
         };
 
         // bind the route we created to the three dots settings button
-        app.extensionSettings['flagrow-saved-messages'] = function () {
-            return m.route(app.route('flagrow-saved-messages'));
+        app.extensionSettings['flagrow-canned-messages'] = function () {
+            return m.route(app.route('flagrow-canned-messages'));
         };
 
         extend(AdminNav.prototype, 'items', function (items) {
             // add the Image Upload tab to the admin navigation menu
-            items.add('flagrow-saved-messages', AdminLinkButton.component({
-                href: app.route('flagrow-saved-messages'),
+            items.add('flagrow-canned-messages', AdminLinkButton.component({
+                href: app.route('flagrow-canned-messages'),
                 icon: 'map-signs',
-                children: app.translator.trans('flagrow-saved-messages.admin.menu.title'),
-                description: app.translator.trans('flagrow-saved-messages.admin.menu.description')
+                children: app.translator.trans('flagrow-canned-messages.admin.menu.title'),
+                description: app.translator.trans('flagrow-canned-messages.admin.menu.description')
             }));
         });
     });
@@ -37,15 +37,15 @@ System.register('flagrow/saved-messages/addMessagesPane', ['flarum/extend', 'fla
             AdminNav = _flarumComponentsAdminNav.default;
         }, function (_flarumComponentsAdminLinkButton) {
             AdminLinkButton = _flarumComponentsAdminLinkButton.default;
-        }, function (_flagrowSavedMessagesPanesMessagesPane) {
-            MessagesPane = _flagrowSavedMessagesPanesMessagesPane.default;
+        }, function (_flagrowCannedMessagesPanesMessagesPane) {
+            MessagesPane = _flagrowCannedMessagesPanesMessagesPane.default;
         }],
         execute: function () {}
     };
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/components/LocaleDropdown', ['flarum/app', 'flarum/Component', 'flarum/components/Select'], function (_export, _context) {
+System.register('flagrow/canned-messages/components/LocaleDropdown', ['flarum/app', 'flarum/Component', 'flarum/components/Select'], function (_export, _context) {
     "use strict";
 
     var app, Component, Select, LocaleDropdown;
@@ -70,7 +70,7 @@ System.register('flagrow/saved-messages/components/LocaleDropdown', ['flarum/app
                     key: 'init',
                     value: function init() {
                         this.options = {
-                            all: app.translator.trans('flagrow-saved-messages.admin.locales.all')
+                            all: app.translator.trans('flagrow-canned-messages.admin.locales.all')
                         };
 
                         for (var locale in app.data.locales) {
@@ -108,7 +108,7 @@ System.register('flagrow/saved-messages/components/LocaleDropdown', ['flarum/app
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/components/MessageEdit', ['flarum/app', 'flarum/Component', 'flarum/components/Button', 'flagrow/saved-messages/components/LocaleDropdown', 'flarum/components/Select'], function (_export, _context) {
+System.register('flagrow/canned-messages/components/MessageEdit', ['flarum/app', 'flarum/Component', 'flarum/components/Button', 'flagrow/canned-messages/components/LocaleDropdown', 'flarum/components/Select'], function (_export, _context) {
     "use strict";
 
     var app, Component, Button, LocaleDropdown, Select, MessageEdit;
@@ -119,8 +119,8 @@ System.register('flagrow/saved-messages/components/MessageEdit', ['flarum/app', 
             Component = _flarumComponent.default;
         }, function (_flarumComponentsButton) {
             Button = _flarumComponentsButton.default;
-        }, function (_flagrowSavedMessagesComponentsLocaleDropdown) {
-            LocaleDropdown = _flagrowSavedMessagesComponentsLocaleDropdown.default;
+        }, function (_flagrowCannedMessagesComponentsLocaleDropdown) {
+            LocaleDropdown = _flagrowCannedMessagesComponentsLocaleDropdown.default;
         }, function (_flarumComponentsSelect) {
             Select = _flarumComponentsSelect.default;
         }],
@@ -147,7 +147,7 @@ System.register('flagrow/saved-messages/components/MessageEdit', ['flarum/app', 
                 }, {
                     key: 'initNewMessage',
                     value: function initNewMessage() {
-                        this.message = app.store.createRecord('flagrow-saved-message', {
+                        this.message = app.store.createRecord('flagrow-canned-message', {
                             attributes: {
                                 key: '',
                                 locale: null,
@@ -184,14 +184,14 @@ System.register('flagrow/saved-messages/components/MessageEdit', ['flarum/app', 
                         })]), m('td', m('li.ButtonGroup', [Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
-                            children: app.translator.trans('flagrow-saved-messages.admin.buttons.' + (this.message.exists ? 'save' : 'add') + '-message'),
+                            children: app.translator.trans('flagrow-canned-messages.admin.buttons.' + (this.message.exists ? 'save' : 'add') + '-message'),
                             loading: this.processing,
                             disabled: !this.dirty,
                             onclick: this.saveMessage.bind(this)
                         }), this.message.exists ? Button.component({
                             type: 'submit',
                             className: 'Button Button--danger',
-                            children: app.translator.trans('flagrow-saved-messages.admin.buttons.delete-message'),
+                            children: app.translator.trans('flagrow-canned-messages.admin.buttons.delete-message'),
                             loading: this.processing,
                             onclick: this.deleteMessage.bind(this)
                         }) : '']))]);
@@ -254,22 +254,22 @@ System.register('flagrow/saved-messages/components/MessageEdit', ['flarum/app', 
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/main', ['flarum/app', 'flagrow/saved-messages/models/Message', 'flagrow/saved-messages/addMessagesPane'], function (_export, _context) {
+System.register('flagrow/canned-messages/main', ['flarum/app', 'flagrow/canned-messages/models/Message', 'flagrow/canned-messages/addMessagesPane'], function (_export, _context) {
     "use strict";
 
     var app, Message, addMessagesPane;
     return {
         setters: [function (_flarumApp) {
             app = _flarumApp.default;
-        }, function (_flagrowSavedMessagesModelsMessage) {
-            Message = _flagrowSavedMessagesModelsMessage.default;
-        }, function (_flagrowSavedMessagesAddMessagesPane) {
-            addMessagesPane = _flagrowSavedMessagesAddMessagesPane.default;
+        }, function (_flagrowCannedMessagesModelsMessage) {
+            Message = _flagrowCannedMessagesModelsMessage.default;
+        }, function (_flagrowCannedMessagesAddMessagesPane) {
+            addMessagesPane = _flagrowCannedMessagesAddMessagesPane.default;
         }],
         execute: function () {
 
-            app.initializers.add('flagrow-saved-messages', function (app) {
-                app.store.models['flagrow-saved-message'] = Message;
+            app.initializers.add('flagrow-canned-messages', function (app) {
+                app.store.models['flagrow-canned-message'] = Message;
 
                 addMessagesPane();
             });
@@ -278,7 +278,7 @@ System.register('flagrow/saved-messages/main', ['flarum/app', 'flagrow/saved-mes
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+System.register('flagrow/canned-messages/models/Message', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
     "use strict";
 
     var Model, mixin, Message;
@@ -300,7 +300,7 @@ System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flaru
                 babelHelpers.createClass(Message, [{
                     key: 'apiEndpoint',
                     value: function apiEndpoint() {
-                        return '/flagrow/saved-messages' + (this.exists ? '/' + this.data.id : '');
+                        return '/flagrow/canned-messages' + (this.exists ? '/' + this.data.id : '');
                     }
                 }]);
                 return Message;
@@ -317,7 +317,7 @@ System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flaru
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/panes/MessagesPane', ['flarum/app', 'flarum/Component', 'flagrow/saved-messages/components/MessageEdit', 'flagrow/saved-messages/utils/sortByProp'], function (_export, _context) {
+System.register('flagrow/canned-messages/panes/MessagesPane', ['flarum/app', 'flarum/Component', 'flagrow/canned-messages/components/MessageEdit', 'flagrow/canned-messages/utils/sortByProp'], function (_export, _context) {
     "use strict";
 
     var app, Component, MessageEdit, sortByProp, MessagesPane;
@@ -326,10 +326,10 @@ System.register('flagrow/saved-messages/panes/MessagesPane', ['flarum/app', 'fla
             app = _flarumApp.default;
         }, function (_flarumComponent) {
             Component = _flarumComponent.default;
-        }, function (_flagrowSavedMessagesComponentsMessageEdit) {
-            MessageEdit = _flagrowSavedMessagesComponentsMessageEdit.default;
-        }, function (_flagrowSavedMessagesUtilsSortByProp) {
-            sortByProp = _flagrowSavedMessagesUtilsSortByProp.default;
+        }, function (_flagrowCannedMessagesComponentsMessageEdit) {
+            MessageEdit = _flagrowCannedMessagesComponentsMessageEdit.default;
+        }, function (_flagrowCannedMessagesUtilsSortByProp) {
+            sortByProp = _flagrowCannedMessagesUtilsSortByProp.default;
         }],
         execute: function () {
             MessagesPane = function (_Component) {
@@ -345,7 +345,7 @@ System.register('flagrow/saved-messages/panes/MessagesPane', ['flarum/app', 'fla
                     value: function init() {
                         app.request({
                             method: 'GET',
-                            url: app.forum.attribute('apiUrl') + '/flagrow/saved-messages'
+                            url: app.forum.attribute('apiUrl') + '/flagrow/canned-messages'
                         }).then(function (result) {
                             app.store.pushPayload(result);
 
@@ -355,9 +355,9 @@ System.register('flagrow/saved-messages/panes/MessagesPane', ['flarum/app', 'fla
                 }, {
                     key: 'view',
                     value: function view() {
-                        var messages = app.store.all('flagrow-saved-message').sort(sortByProp('key'));
+                        var messages = app.store.all('flagrow-canned-message').sort(sortByProp('key'));
 
-                        return m('.container', [m('table.Flagrow-Saved-Messages', [m('thead', m('tr', [m('th', app.translator.trans('flagrow-saved-messages.admin.strings.key')), m('th', app.translator.trans('flagrow-saved-messages.admin.strings.locale')), m('th', app.translator.trans('flagrow-saved-messages.admin.strings.style')), m('th', app.translator.trans('flagrow-saved-messages.admin.strings.content'))])), m('tbody', messages.map(function (message) {
+                        return m('.container', [m('table.Flagrow-Canned-Messages', [m('thead', m('tr', [m('th', app.translator.trans('flagrow-canned-messages.admin.strings.key')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.locale')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.style')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.content'))])), m('tbody', messages.map(function (message) {
                             return MessageEdit.component({
                                 key: message.id(),
                                 message: message
@@ -377,7 +377,7 @@ System.register('flagrow/saved-messages/panes/MessagesPane', ['flarum/app', 'fla
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/utils/sortByProp', [], function (_export, _context) {
+System.register('flagrow/canned-messages/utils/sortByProp', [], function (_export, _context) {
     "use strict";
 
     _export('default', function (prop) {

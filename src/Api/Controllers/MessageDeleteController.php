@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\SavedMessages\Api\Controllers;
+namespace Flagrow\CannedMessages\Api\Controllers;
 
-use Flagrow\SavedMessages\Repositories\MessageRepository;
+use Flagrow\CannedMessages\Repositories\MessageRepository;
 use Flarum\Api\Controller\AbstractDeleteController;
 use Flarum\Core\Access\AssertPermissionTrait;
 use Illuminate\Support\Arr;
@@ -17,9 +17,9 @@ class MessageDeleteController extends AbstractDeleteController
      */
     protected $messages;
 
-    public function __construct(MessageRepository $strings)
+    public function __construct(MessageRepository $messages)
     {
-        $this->messages = $strings;
+        $this->messages = $messages;
     }
 
     protected function delete(ServerRequestInterface $request)

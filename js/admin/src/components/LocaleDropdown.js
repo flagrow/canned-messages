@@ -5,7 +5,7 @@ import Select from 'flarum/components/Select';
 export default class LocaleDropdown extends Component {
     init() {
         this.options = {
-            all: app.translator.trans('flagrow-saved-messages.admin.locales.all'),
+            all: app.translator.trans('flagrow-canned-messages.admin.locales.all'),
         };
 
         for (let locale in app.data.locales) {

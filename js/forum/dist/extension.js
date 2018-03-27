@@ -1,26 +1,26 @@
 'use strict';
 
-System.register('flagrow/saved-messages/main', ['flarum/app', 'flagrow/saved-messages/models/Message'], function (_export, _context) {
+System.register('flagrow/canned-messages/main', ['flarum/app', 'flagrow/canned-messages/models/Message'], function (_export, _context) {
     "use strict";
 
     var app, Message;
     return {
         setters: [function (_flarumApp) {
             app = _flarumApp.default;
-        }, function (_flagrowSavedMessagesModelsMessage) {
-            Message = _flagrowSavedMessagesModelsMessage.default;
+        }, function (_flagrowCannedMessagesModelsMessage) {
+            Message = _flagrowCannedMessagesModelsMessage.default;
         }],
         execute: function () {
 
-            app.initializers.add('flagrow-saved-messages', function (app) {
-                app.store.models['flagrow-saved-message'] = Message;
+            app.initializers.add('flagrow-canned-messages', function (app) {
+                app.store.models['flagrow-canned-message'] = Message;
             });
         }
     };
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+System.register('flagrow/canned-messages/models/Message', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
     "use strict";
 
     var Model, mixin, Message;
@@ -42,7 +42,7 @@ System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flaru
                 babelHelpers.createClass(Message, [{
                     key: 'apiEndpoint',
                     value: function apiEndpoint() {
-                        return '/flagrow/saved-messages' + (this.exists ? '/' + this.data.id : '');
+                        return '/flagrow/canned-messages' + (this.exists ? '/' + this.data.id : '');
                     }
                 }]);
                 return Message;
@@ -59,12 +59,12 @@ System.register('flagrow/saved-messages/models/Message', ['flarum/Model', 'flaru
 });;
 'use strict';
 
-System.register('flagrow/saved-messages/utils/textFormatter', ['flarum/app'], function (_export, _context) {
+System.register('flagrow/canned-messages/utils/textFormatter', ['flarum/app'], function (_export, _context) {
     "use strict";
 
     var app;
     function filterSavedMessage(tag) {
-        var message = app.store.getBy('flagrow-saved-message', 'key', tag.getAttribute('key'));
+        var message = app.store.getBy('flagrow-canned-message', 'key', tag.getAttribute('key'));
 
         var classes = '';
         var content = '';
@@ -85,7 +85,7 @@ System.register('flagrow/saved-messages/utils/textFormatter', ['flarum/app'], fu
             content = message.content();
         } else {
             classes = 'Alert';
-            content = app.translator.trans('flagrow-saved-messages.forum.bbcode.invalid-key');
+            content = app.translator.trans('flagrow-canned-messages.forum.bbcode.invalid-key');
         }
 
         tag.setAttribute('classes', classes);

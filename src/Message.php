@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\SavedMessages;
+namespace Flagrow\CannedMessages;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
@@ -14,11 +14,11 @@ use Flarum\Database\AbstractModel;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
-class SavedMessage extends AbstractModel
+class Message extends AbstractModel
 {
     public $timestamps = true;
 
-    protected $table = 'flagrow_saved_messages';
+    protected $table = 'flagrow_canned_messages';
 
     protected $visible = [
         'key',

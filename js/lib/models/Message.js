@@ -11,6 +11,6 @@ export default class Message extends mixin(Model, {
      * @inheritDoc
      */
     apiEndpoint() {
-        return '/flagrow/saved-messages' + (this.exists ? '/' + this.data.id : '');
+        return '/flagrow/canned-messages' + (this.exists ? '/' + this.data.id : '');
     }
 }

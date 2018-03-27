@@ -1,7 +1,7 @@
 import app from 'flarum/app';
 
 export function filterSavedMessage(tag) {
-    const message = app.store.getBy('flagrow-saved-message', 'key', tag.getAttribute('key'));
+    const message = app.store.getBy('flagrow-canned-message', 'key', tag.getAttribute('key'));
 
     let classes = '';
     let content = '';
@@ -22,7 +22,7 @@ export function filterSavedMessage(tag) {
         content = message.content();
     } else {
         classes = 'Alert';
-        content = app.translator.trans('flagrow-saved-messages.forum.bbcode.invalid-key');
+        content = app.translator.trans('flagrow-canned-messages.forum.bbcode.invalid-key');
     }
 
     tag.setAttribute('classes', classes);

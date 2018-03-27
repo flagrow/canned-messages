@@ -2,7 +2,7 @@ const gulp = require('flarum-gulp');
 
 gulp({
     modules: {
-        'flagrow/saved-messages': [
+        'flagrow/canned-messages': [
             '../lib/**/*.js',
             'src/**/*.js',
         ],

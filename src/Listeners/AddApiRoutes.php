@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\SavedMessages\Listeners;
+namespace Flagrow\CannedMessages\Listeners;
 
-use Flagrow\SavedMessages\Api\Controllers;
+use Flagrow\CannedMessages\Api\Controllers;
 use Flarum\Event\ConfigureApiRoutes;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -16,23 +16,23 @@ class AddApiRoutes
     public function routes(ConfigureApiRoutes $routes)
     {
         $routes->get(
-            '/flagrow/saved-messages',
-            'flagrow.saved-messages.api.messages.index',
+            '/flagrow/canned-messages',
+            'flagrow.canned-messages.api.messages.index',
             Controllers\MessageIndexController::class
         );
         $routes->post(
-            '/flagrow/saved-messages',
-            'flagrow.saved-messages.api.messages.store',
+            '/flagrow/canned-messages',
+            'flagrow.canned-messages.api.messages.store',
             Controllers\MessageStoreController::class
         );
         $routes->patch(
-            '/flagrow/saved-messages/{id:[0-9]+}',
-            'flagrow.saved-messages.api.messages.update',
+            '/flagrow/canned-messages/{id:[0-9]+}',
+            'flagrow.canned-messages.api.messages.update',
             Controllers\MessageUpdateController::class
         );
         $routes->delete(
-            '/flagrow/saved-messages/{id:[0-9]+}',
-            'flagrow.saved-messages.api.messages.delete',
+            '/flagrow/canned-messages/{id:[0-9]+}',
+            'flagrow.canned-messages.api.messages.delete',
             Controllers\MessageDeleteController::class
         );
     }

@@ -1,13 +1,13 @@
-flagrow-saved-messages:
+flagrow-canned-messages:
     admin:
         buttons:
             add-message: Add message
             save-message: Save message
             delete-message: Delete message
         menu:
-            title: Saved Messages
+            title: Canned Messages
             description: >
-                Custom bbcodes.
+                Custom bbcodes for recurring messages.
         strings:
             key: BBcode Key
             locale: Locale

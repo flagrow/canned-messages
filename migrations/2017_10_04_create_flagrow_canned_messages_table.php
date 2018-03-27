@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Builder;
 
 return [
     'up' => function (Builder $schema) {
-        $schema->create('flagrow_saved_messages', function (Blueprint $table) {
+        $schema->create('flagrow_canned_messages', function (Blueprint $table) {
             $table->increments('id');
             $table->string('key', 180)->index();
             $table->string('locale', 10)->nullable()->index();
@@ -17,6 +17,6 @@ return [
         });
     },
     'down' => function (Builder $schema) {
-        $schema->drop('flagrow_saved_messages');
+        $schema->drop('flagrow_canned_messages');
     },
 ];

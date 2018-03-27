@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\SavedMessages;
+namespace Flagrow\CannedMessages;
 
 use Illuminate\Contracts\Events\Dispatcher;
 

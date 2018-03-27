@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\SavedMessages\Listeners;
+namespace Flagrow\CannedMessages\Listeners;
 
 use DirectoryIterator;
 use Flarum\Event\ConfigureLocales;
@@ -30,7 +30,7 @@ class AddClientAssets
             ]);
         }
 
-        $app->addBootstrapper('flagrow/saved-messages/main');
+        $app->addBootstrapper('flagrow/canned-messages/main');
     }
 
     public function addLocales(ConfigureLocales $event)

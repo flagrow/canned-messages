@@ -1,16 +1,16 @@
 <?php
 
-namespace Flagrow\SavedMessages\Repositories;
+namespace Flagrow\CannedMessages\Repositories;
 
-use Flagrow\SavedMessages\SavedMessage;
-use Flagrow\SavedMessages\Validators\MessageValidator;
+use Flagrow\CannedMessages\Message;
+use Flagrow\CannedMessages\Validators\MessageValidator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class MessageRepository
 {
     /**
-     * @var SavedMessage
+     * @var Message
      */
     protected $savedMessage;
 
@@ -19,7 +19,7 @@ class MessageRepository
      */
     protected $validator;
 
-    public function __construct(SavedMessage $message, MessageValidator $validator)
+    public function __construct(Message $message, MessageValidator $validator)
     {
         $this->savedMessage = $message;
         $this->validator = $validator;
@@ -40,7 +40,7 @@ class MessageRepository
         return $this->query()->get();
     }
 
-    public function findOrFail($id): SavedMessage
+    public function findOrFail($id): Message
     {
         return $this->query()->findOrFail($id);
     }
@@ -48,7 +48,7 @@ class MessageRepository
     /**
      * @param string $locale
      * @param string $key
-     * @return SavedMessage|null
+     * @return Message|null
      */
     public function findForLocale(string $locale, string $key)
     {
@@ -57,17 +57,17 @@ class MessageRepository
         })->where('key', $key)->orderBy('locale', 'desc')->first();
     }
 
-    public function store(array $attributes): SavedMessage
+    public function store(array $attributes): Message
     {
         $this->validator->assertValid($attributes);
 
-        $message = new SavedMessage($attributes);
+        $message = new Message($attributes);
         $message->save();
 
         return $message;
     }
 
-    public function update(SavedMessage $message, array $attributes): SavedMessage
+    public function update(Message $message, array $attributes): Message
     {
         $this->validator->assertValid($attributes);
 
@@ -77,7 +77,7 @@ class MessageRepository
         return $message;
     }
 
-    public function delete(SavedMessage $message)
+    public function delete(Message $message)
     {
         $message->delete();
     }
