@@ -1,0 +1,46 @@
+{
+    "name": "flagrow/saved-messages",
+    "description": "Use bbcode to display custom and recurring messages",
+    "keywords": [
+        "extension",
+        "flarum",
+        "flagrow",
+        "messages",
+        "bbcode"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clark Winkelmann",
+            "email": "clark.winkelmann@gmail.com",
+            "homepage": "https://clarkwinkelmann.com/"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/flagrow/saved-messages/issues",
+        "source": "https://github.com/flagrow/saved-messages"
+    },
+    "require": {
+        "php": ">=7.0",
+        "flarum/core": "^0.1.0-beta.7"
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Flagrow Saved Messages",
+            "icon": {
+                "name": "map-signs",
+                "backgroundColor": "#f4f4f4",
+                "color": "#5f4bb6"
+            }
+        },
+        "flagrow": {
+            "discuss": ""
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Flagrow\\SavedMessages\\": "src/"
+        }
+    }
+}

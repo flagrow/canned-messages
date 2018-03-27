@@ -1,0 +1,21 @@
+flagrow-saved-messages:
+    admin:
+        buttons:
+            add-message: Add message
+            save-message: Save message
+            delete-message: Delete message
+        menu:
+            title: Saved Messages
+            description: >
+                Custom bbcodes.
+        strings:
+            key: BBcode Key
+            locale: Locale
+            style: Style
+            content: Content
+        locales:
+            all: All
+
+    forum:
+        bbcode:
+            invalid-key: There should be a message here, but its content was deleted or isn't available in the current language
