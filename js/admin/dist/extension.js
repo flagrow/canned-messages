@@ -1,20 +1,15 @@
 'use strict';
 
-System.register('flagrow/canned-messages/addMessagesPane', ['flarum/extend', 'flarum/app', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'flagrow/canned-messages/panes/MessagesPane'], function (_export, _context) {
+System.register('flagrow/canned-messages/addMessagesPane', ['flarum/extend', 'flarum/app', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'flagrow/canned-messages/components/MessagesPage'], function (_export, _context) {
     "use strict";
 
-    var extend, app, AdminNav, AdminLinkButton, MessagesPane;
+    var extend, app, AdminNav, AdminLinkButton, MessagesPage;
 
     _export('default', function () {
         // create the route
         app.routes['flagrow-canned-messages'] = {
             path: '/flagrow/canned-messages',
-            component: MessagesPane.component()
-        };
-
-        // bind the route we created to the three dots settings button
-        app.extensionSettings['flagrow-canned-messages'] = function () {
-            return m.route(app.route('flagrow-canned-messages'));
+            component: MessagesPage.component()
         };
 
         extend(AdminNav.prototype, 'items', function (items) {
@@ -37,8 +32,8 @@ System.register('flagrow/canned-messages/addMessagesPane', ['flarum/extend', 'fl
             AdminNav = _flarumComponentsAdminNav.default;
         }, function (_flarumComponentsAdminLinkButton) {
             AdminLinkButton = _flarumComponentsAdminLinkButton.default;
-        }, function (_flagrowCannedMessagesPanesMessagesPane) {
-            MessagesPane = _flagrowCannedMessagesPanesMessagesPane.default;
+        }, function (_flagrowCannedMessagesComponentsMessagesPage) {
+            MessagesPage = _flagrowCannedMessagesComponentsMessagesPage.default;
         }],
         execute: function () {}
     };
@@ -161,10 +156,12 @@ System.register('flagrow/canned-messages/components/MessageEdit', ['flarum/app',
                     value: function view() {
                         var _this2 = this;
 
+                        var bbtag = app.data.settings['flagrow.canned-messages.bbtag'] || 'CANNED-MESSAGE';
+
                         return m('tr', [m('td', [m('input.FormControl', {
                             value: this.message.key(),
                             oninput: m.withAttr('value', this.updateAttribute.bind(this, 'key'))
-                        }), this.message.key() ? ['Use as ', m('code', '[saved-message]' + this.message.key() + '[/saved-message]')] : null]), m('td', [LocaleDropdown.component({
+                        }), this.message.key() ? ['Use as ', m('code', '[' + bbtag + ']' + this.message.key() + '[/' + bbtag + ']')] : null]), m('td', [LocaleDropdown.component({
                             value: this.message.locale(),
                             onchange: this.updateAttribute.bind(this, 'locale')
                         })]), m('td', [Select.component({
@@ -254,15 +251,145 @@ System.register('flagrow/canned-messages/components/MessageEdit', ['flarum/app',
 });;
 'use strict';
 
-System.register('flagrow/canned-messages/main', ['flarum/app', 'flagrow/canned-messages/models/Message', 'flagrow/canned-messages/addMessagesPane'], function (_export, _context) {
+System.register('flagrow/canned-messages/components/MessagesPage', ['flarum/app', 'flarum/components/Page', 'flarum/components/Button', 'flagrow/canned-messages/components/MessageEdit', 'flagrow/canned-messages/utils/sortByProp', 'flagrow/canned-messages/components/Settings'], function (_export, _context) {
     "use strict";
 
-    var app, Message, addMessagesPane;
+    var app, Page, Button, MessageEdit, sortByProp, Settings, MessagesPane;
+    return {
+        setters: [function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumComponentsPage) {
+            Page = _flarumComponentsPage.default;
+        }, function (_flarumComponentsButton) {
+            Button = _flarumComponentsButton.default;
+        }, function (_flagrowCannedMessagesComponentsMessageEdit) {
+            MessageEdit = _flagrowCannedMessagesComponentsMessageEdit.default;
+        }, function (_flagrowCannedMessagesUtilsSortByProp) {
+            sortByProp = _flagrowCannedMessagesUtilsSortByProp.default;
+        }, function (_flagrowCannedMessagesComponentsSettings) {
+            Settings = _flagrowCannedMessagesComponentsSettings.default;
+        }],
+        execute: function () {
+            MessagesPane = function (_Page) {
+                babelHelpers.inherits(MessagesPane, _Page);
+
+                function MessagesPane() {
+                    babelHelpers.classCallCheck(this, MessagesPane);
+                    return babelHelpers.possibleConstructorReturn(this, (MessagesPane.__proto__ || Object.getPrototypeOf(MessagesPane)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(MessagesPane, [{
+                    key: 'init',
+                    value: function init() {
+                        babelHelpers.get(MessagesPane.prototype.__proto__ || Object.getPrototypeOf(MessagesPane.prototype), 'init', this).call(this);
+
+                        app.request({
+                            method: 'GET',
+                            url: app.forum.attribute('apiUrl') + '/flagrow/canned-messages'
+                        }).then(function (result) {
+                            app.store.pushPayload(result);
+
+                            m.redraw();
+                        });
+                    }
+                }, {
+                    key: 'view',
+                    value: function view() {
+                        var messages = app.store.all('flagrow-canned-message').sort(sortByProp('key'));
+
+                        return m('.container', [m('table.Flagrow-Canned-Messages', [m('thead', m('tr', [m('th', app.translator.trans('flagrow-canned-messages.admin.strings.key')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.locale')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.style')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.content'))])), m('tbody', messages.map(function (message) {
+                            return MessageEdit.component({
+                                key: message.id(),
+                                message: message
+                            });
+                        })), m('tbody', MessageEdit.component({
+                            key: 'new',
+                            message: null
+                        }))]), Button.component({
+                            className: 'Button',
+                            icon: 'cog',
+                            children: app.translator.trans('flagrow-canned-messages.admin.buttons.configure-advanced'),
+                            onclick: function onclick() {
+                                app.modal.show(new Settings());
+                            }
+                        })]);
+                    }
+                }]);
+                return MessagesPane;
+            }(Page);
+
+            _export('default', MessagesPane);
+        }
+    };
+});;
+'use strict';
+
+System.register('flagrow/canned-messages/components/Settings', ['flarum/app', 'flarum/components/SettingsModal', 'flarum/components/Button'], function (_export, _context) {
+    "use strict";
+
+    var app, SettingsModal, Button, settingsPrefix, translationPrefix, Settings;
+    return {
+        setters: [function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumComponentsSettingsModal) {
+            SettingsModal = _flarumComponentsSettingsModal.default;
+        }, function (_flarumComponentsButton) {
+            Button = _flarumComponentsButton.default;
+        }],
+        execute: function () {
+            settingsPrefix = 'flagrow.canned-messages.';
+            translationPrefix = 'flagrow-canned-messages.admin.settings.';
+
+            Settings = function (_SettingsModal) {
+                babelHelpers.inherits(Settings, _SettingsModal);
+
+                function Settings() {
+                    babelHelpers.classCallCheck(this, Settings);
+                    return babelHelpers.possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).apply(this, arguments));
+                }
+
+                babelHelpers.createClass(Settings, [{
+                    key: 'title',
+                    value: function title() {
+                        return app.translator.trans(translationPrefix + 'title');
+                    }
+                }, {
+                    key: 'form',
+                    value: function form() {
+                        return [m('.Form-group', [Button.component({
+                            className: 'Button',
+                            icon: 'map-signs',
+                            children: app.translator.trans('flagrow-canned-messages.admin.buttons.configure-messages'),
+                            onclick: function onclick() {
+                                m.route(app.route('flagrow-canned-messages'));
+                                app.modal.close();
+                            }
+                        })]), m('.Form-group', [m('label', app.translator.trans(translationPrefix + 'bbtag')), m('input.FormControl', {
+                            bidi: this.setting(settingsPrefix + 'bbtag'),
+                            placeholder: 'CANNED-MESSAGE'
+                        }), m('.helpText', app.translator.trans('flagrow-canned-messages.admin.settings.bbtag-help'))])];
+                    }
+                }]);
+                return Settings;
+            }(SettingsModal);
+
+            _export('default', Settings);
+        }
+    };
+});;
+'use strict';
+
+System.register('flagrow/canned-messages/main', ['flarum/app', 'flagrow/canned-messages/models/Message', 'flagrow/canned-messages/components/Settings', 'flagrow/canned-messages/addMessagesPane'], function (_export, _context) {
+    "use strict";
+
+    var app, Message, Settings, addMessagesPane;
     return {
         setters: [function (_flarumApp) {
             app = _flarumApp.default;
         }, function (_flagrowCannedMessagesModelsMessage) {
             Message = _flagrowCannedMessagesModelsMessage.default;
+        }, function (_flagrowCannedMessagesComponentsSettings) {
+            Settings = _flagrowCannedMessagesComponentsSettings.default;
         }, function (_flagrowCannedMessagesAddMessagesPane) {
             addMessagesPane = _flagrowCannedMessagesAddMessagesPane.default;
         }],
@@ -270,6 +397,10 @@ System.register('flagrow/canned-messages/main', ['flarum/app', 'flagrow/canned-m
 
             app.initializers.add('flagrow-canned-messages', function (app) {
                 app.store.models['flagrow-canned-message'] = Message;
+
+                app.extensionSettings['flagrow-canned-messages'] = function () {
+                    return app.modal.show(new Settings());
+                };
 
                 addMessagesPane();
             });
@@ -312,66 +443,6 @@ System.register('flagrow/canned-messages/models/Message', ['flarum/Model', 'flar
             }));
 
             _export('default', Message);
-        }
-    };
-});;
-'use strict';
-
-System.register('flagrow/canned-messages/panes/MessagesPane', ['flarum/app', 'flarum/Component', 'flagrow/canned-messages/components/MessageEdit', 'flagrow/canned-messages/utils/sortByProp'], function (_export, _context) {
-    "use strict";
-
-    var app, Component, MessageEdit, sortByProp, MessagesPane;
-    return {
-        setters: [function (_flarumApp) {
-            app = _flarumApp.default;
-        }, function (_flarumComponent) {
-            Component = _flarumComponent.default;
-        }, function (_flagrowCannedMessagesComponentsMessageEdit) {
-            MessageEdit = _flagrowCannedMessagesComponentsMessageEdit.default;
-        }, function (_flagrowCannedMessagesUtilsSortByProp) {
-            sortByProp = _flagrowCannedMessagesUtilsSortByProp.default;
-        }],
-        execute: function () {
-            MessagesPane = function (_Component) {
-                babelHelpers.inherits(MessagesPane, _Component);
-
-                function MessagesPane() {
-                    babelHelpers.classCallCheck(this, MessagesPane);
-                    return babelHelpers.possibleConstructorReturn(this, (MessagesPane.__proto__ || Object.getPrototypeOf(MessagesPane)).apply(this, arguments));
-                }
-
-                babelHelpers.createClass(MessagesPane, [{
-                    key: 'init',
-                    value: function init() {
-                        app.request({
-                            method: 'GET',
-                            url: app.forum.attribute('apiUrl') + '/flagrow/canned-messages'
-                        }).then(function (result) {
-                            app.store.pushPayload(result);
-
-                            m.redraw();
-                        });
-                    }
-                }, {
-                    key: 'view',
-                    value: function view() {
-                        var messages = app.store.all('flagrow-canned-message').sort(sortByProp('key'));
-
-                        return m('.container', [m('table.Flagrow-Canned-Messages', [m('thead', m('tr', [m('th', app.translator.trans('flagrow-canned-messages.admin.strings.key')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.locale')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.style')), m('th', app.translator.trans('flagrow-canned-messages.admin.strings.content'))])), m('tbody', messages.map(function (message) {
-                            return MessageEdit.component({
-                                key: message.id(),
-                                message: message
-                            });
-                        })), m('tbody', MessageEdit.component({
-                            key: 'new',
-                            message: null
-                        }))])]);
-                    }
-                }]);
-                return MessagesPane;
-            }(Component);
-
-            _export('default', MessagesPane);
         }
     };
 });;

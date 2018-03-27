@@ -4,6 +4,8 @@ flagrow-canned-messages:
             add-message: Add message
             save-message: Save message
             delete-message: Delete message
+            configure-messages: Click to configure messages
+            configure-advanced: Configure advanced settings
         menu:
             title: Canned Messages
             description: >
@@ -15,6 +17,14 @@ flagrow-canned-messages:
             content: Content
         locales:
             all: All
+        settings:
+            title: Canned Messages Settings
+            bbtag: Custom BBcode Tag
+            bbtag-help: >
+                Here you can change the bbcode used for the canned messages.
+                Changing this value will break all existing canned message with a different tag name!
+                You can only use uppercase A-Z, "-" and "_".
+                Don't forget to clear the cache after changing this value.
 
     forum:
         bbcode:

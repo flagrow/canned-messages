@@ -2,17 +2,14 @@ import {extend} from 'flarum/extend';
 import app from 'flarum/app';
 import AdminNav from 'flarum/components/AdminNav';
 import AdminLinkButton from 'flarum/components/AdminLinkButton';
-import MessagesPane from 'flagrow/canned-messages/panes/MessagesPane';
+import MessagesPage from 'flagrow/canned-messages/components/MessagesPage';
 
 export default function () {
     // create the route
     app.routes['flagrow-canned-messages'] = {
         path: '/flagrow/canned-messages',
-        component: MessagesPane.component(),
+        component: MessagesPage.component(),
     };
-
-    // bind the route we created to the three dots settings button
-    app.extensionSettings['flagrow-canned-messages'] = () => m.route(app.route('flagrow-canned-messages'));
 
     extend(AdminNav.prototype, 'items', items => {
         // add the Image Upload tab to the admin navigation menu

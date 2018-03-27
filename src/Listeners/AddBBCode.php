@@ -2,10 +2,12 @@
 
 namespace Flagrow\CannedMessages\Listeners;
 
+use Flagrow\CannedMessages\Message;
 use Flagrow\CannedMessages\Repositories\MessageRepository;
 use Flarum\Event\ConfigureFormatter;
 use Flarum\Event\ConfigureFormatterRenderer;
 use Flarum\Locale\LocaleManager;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use s9e\TextFormatter\Utils;
 
@@ -17,14 +19,32 @@ class AddBBCode
         $events->listen(ConfigureFormatterRenderer::class, [$this, 'render']);
     }
 
+    protected function getTagName(): string
+    {
+        /**
+         * @var $settings SettingsRepositoryInterface
+         */
+        $settings = app(SettingsRepositoryInterface::class);
+
+        $tagName = $settings->get('flagrow.canned-messages.bbtag');
+
+        if ($tagName) {
+            return $tagName;
+        }
+
+        return Message::DEFAULT_BBTAG;
+    }
+
     public function configure(ConfigureFormatter $event)
     {
+        $tagName = $this->getTagName();
+
         $event->configurator->BBCodes->addCustom(
-            '[SAVED-MESSAGE key={IDENTIFIER;useContent}]',
+            '[' . $tagName . ' key={IDENTIFIER;useContent}]',
             '<div class="Flagrow-Saved-Message Flagrow-Saved-Message--{@key} {@classes}">{@content}</div>'
         );
 
-        $tag = $event->configurator->tags->get('SAVED-MESSAGE');
+        $tag = $event->configurator->tags->get($tagName);
 
         // It's necessary to register the attributes here or the javascript preview doesn't work
         // But if they are marked as not required they won't be saved to the database
@@ -37,7 +57,7 @@ class AddBBCode
 
     public function render(ConfigureFormatterRenderer $event)
     {
-        $event->xml = Utils::replaceAttributes($event->xml, 'SAVED-MESSAGE', function ($attributes) {
+        $event->xml = Utils::replaceAttributes($event->xml, $this->getTagName(), function ($attributes) {
             $key = array_get($attributes, 'key');
 
             /**

@@ -9,4 +9,5 @@ return function (Dispatcher $events) {
     $events->subscribe(Listeners\AddBBCode::class);
     $events->subscribe(Listeners\AddClientAssets::class);
     $events->subscribe(Listeners\AddForumSavedMessagesRelationship::class);
+    $events->subscribe(Listeners\CheckBBTagFormat::class);
 };

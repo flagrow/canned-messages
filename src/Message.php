@@ -20,6 +20,8 @@ class Message extends AbstractModel
 
     protected $table = 'flagrow_canned_messages';
 
+    const DEFAULT_BBTAG = 'CANNED-MESSAGE';
+
     protected $visible = [
         'key',
         'locale',

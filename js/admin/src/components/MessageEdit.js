@@ -27,13 +27,15 @@ export default class MessageEdit extends Component {
     }
 
     view() {
+        const bbtag = app.data.settings['flagrow.canned-messages.bbtag'] || 'CANNED-MESSAGE';
+
         return m('tr', [
             m('td', [
                 m('input.FormControl', {
                     value: this.message.key(),
                     oninput: m.withAttr('value', this.updateAttribute.bind(this, 'key')),
                 }),
-                (this.message.key() ? ['Use as ', m('code', '[saved-message]' + this.message.key() + '[/saved-message]')] : null),
+                (this.message.key() ? ['Use as ', m('code', '[' + bbtag + ']' + this.message.key() + '[/' + bbtag + ']')] : null),
             ]),
             m('td', [
                 LocaleDropdown.component({

@@ -1,10 +1,14 @@
 import app from 'flarum/app';
-import Component from 'flarum/Component';
+import Page from 'flarum/components/Page';
+import Button from 'flarum/components/Button';
 import MessageEdit from 'flagrow/canned-messages/components/MessageEdit';
 import sortByProp from 'flagrow/canned-messages/utils/sortByProp';
+import Settings from 'flagrow/canned-messages/components/Settings';
 
-export default class MessagesPane extends Component {
+export default class MessagesPane extends Page {
     init() {
+        super.init();
+
         app.request({
             method: 'GET',
             url: app.forum.attribute('apiUrl') + '/flagrow/canned-messages',
@@ -35,6 +39,14 @@ export default class MessagesPane extends Component {
                     message: null,
                 })),
             ]),
+            Button.component({
+                className: 'Button',
+                icon: 'cog',
+                children: app.translator.trans('flagrow-canned-messages.admin.buttons.configure-advanced'),
+                onclick() {
+                    app.modal.show(new Settings());
+                },
+            }),
         ]);
     }
 }
